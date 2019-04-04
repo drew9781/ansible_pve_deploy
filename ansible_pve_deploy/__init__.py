@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import ansiblePlay
-from qm_clone import parse_template, qm_format
+from ansible_pve_deploy.ansiblePlay import ansiblePlay
+from ansible_pve_deploy.qm_clone import parse_template, qm_format
 from getpass import getpass
 import json
 import time

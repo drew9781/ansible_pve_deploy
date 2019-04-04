@@ -29,6 +29,7 @@ class ResultCallback(CallbackBase):
         return self
 
 class ansiblePlay(object):
+    
 
     def ansibleRun(self, _module, _host, _qm, _args, _ansible_hosts_file):
 
