@@ -1,4 +1,6 @@
 # ansible_pve_deploy
+ansible version 2.7.9
+python 3.5.5
 
 This module uses a template to create VM clones on proxmox using ansible and qm command.
 
