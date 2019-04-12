@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-
-# This needs to be ran as root with sudo
 
 # This reads user input from the specified config file
 def parse_template(arg1):

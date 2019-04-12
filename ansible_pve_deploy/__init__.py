@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 from ansible_pve_deploy.ansiblePlay import ansiblePlay
 from ansible_pve_deploy.qm_clone import parse_template, qm_format
 from getpass import getpass
