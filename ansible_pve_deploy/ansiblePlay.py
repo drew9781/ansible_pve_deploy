@@ -32,7 +32,22 @@ class ResultCallback(CallbackBase):
 class ansiblePlay(object):
     
 
-    def ansibleRun(self, _module, _host, _qm, _args, _ansible_hosts_file):
+    #def ansibleRun(self, _module, _host, _qm, _args, _ansible_hosts_file):
+    #def ansibleRunJson(self, _module, _host, _qm, _args, _ansible_hosts_file):
+    #def ansibleRunBecome(self, _module, _host, _qm, _args, _ansible_hosts_file, _ansible_password):
+    def ansibleRun(self, *args, **kwargs ):
+        if 'module' in kwargs:
+            _module = kwargs.get('module')
+        if 'host' in kwargs:
+            _host = kwargs.get('host')
+        if 'qm' in kwargs:
+            _qm = kwargs.get('qm')
+        if 'args' in kwargs:
+            _args = kwargs.get('args')
+        if 'ansible_hosts_file' in kwargs:
+            _ansible_hosts_file = kwargs.get('ansible_hosts_file')
+        if 'ansible_password' in kwargs:
+            _ansible_password = kwargs.get('ansible_passwords')
 
         # since API is constructed for CLI it expects certain options to always be set, named tuple 'fakes' the args parsing options object
         Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
