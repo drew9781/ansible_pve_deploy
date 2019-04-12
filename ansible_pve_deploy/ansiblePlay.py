@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import json
 import shutil
 from collections import namedtuple
