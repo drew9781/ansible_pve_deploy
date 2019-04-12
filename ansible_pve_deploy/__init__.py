@@ -15,7 +15,7 @@ ansible_password = getpass(prompt='Ansible sudo password:')
 
 def main():
     qm_clone, qm_ip, clone_name, clone_ip, clone_id = qm_format(i, clones, templateID)
-    play = ansiblePlay.ansiblePlay()
+    play = ansiblePlay()
     # Clone and configure ip for new VMS on pve host
     play.ansibleRunBecome('shell ', pve, qm_clone, '', ansible_host_file, ansible_password)
     play.ansibleRunBecome('shell ', pve, qm_ip, '', ansible_host_file, ansible_password)
