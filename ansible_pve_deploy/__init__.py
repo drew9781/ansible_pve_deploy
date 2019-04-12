@@ -4,12 +4,13 @@ from ansible_pve_deploy.qm_clone import parse_template, qm_format
 from getpass import getpass
 import json
 import time
+import sys
 
 from multiprocessing import Process
 
 
 cloneVarLength = 5 #How many variables will the template take per clone?
-file = "../template.csv" #The file to read user info from
+file = str(sys.argv)
 ansible_host_file = '/etc/ansible/hosts'
 ansible_password = getpass(prompt='Ansible sudo password:')
 
