@@ -10,7 +10,7 @@ from multiprocessing import Process
 
 
 cloneVarLength = 5 #How many variables will the template take per clone?
-file = str(sys.argv)[1]
+file = sys.argv[1]
 ansible_host_file = '/etc/ansible/hosts'
 ansible_password = getpass(prompt='Ansible sudo password:')
 
