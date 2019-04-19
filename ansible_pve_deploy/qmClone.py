@@ -34,15 +34,3 @@ def qm_format(arg1, clone, templateID):
     qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
 
     return qmClone, qmIP, clone_name, clone_ip, clone_id
-
-
-
-
-
-
-
-    
-
-
-
-
