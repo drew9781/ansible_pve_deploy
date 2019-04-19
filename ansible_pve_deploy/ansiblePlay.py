@@ -93,7 +93,7 @@ class ansiblePlay(object):
                 loader=loader,
                 options=options,
                 passwords=passwords,
-                if _json == True
+                if _json == True:
                     stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
             )
             
