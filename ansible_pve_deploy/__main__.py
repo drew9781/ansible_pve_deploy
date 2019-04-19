@@ -28,6 +28,9 @@ def main():
 
     #wait for cloudinit to finish
     done = None
+    time.sleep(180)
+    print("Waiting 3 minutes for " + clone_name + " to Boot!")
+    
     while done != True:
         # play command to check if cloud init finished
         stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_host_file = ansible_host_file)
@@ -35,7 +38,9 @@ def main():
         try:
             # run play command and extract json
             play.json = json.loads(stat.json)
-            print(play.json[clone_name]['stat']['exists'], ' ' + clone_name)
+            if play.json[clone_name]['stat']['exists'] == False:
+                print(clone_name + ' is not finished!')
+            #print(play.json[clone_name]['stat']['exists'], ' ' + clone_name)
             done = play.json[clone_name]['stat']['exists']
         except AttributeError:
             print('failed this time ' + clone_name)
