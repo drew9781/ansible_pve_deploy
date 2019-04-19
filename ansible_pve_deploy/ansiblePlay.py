@@ -48,17 +48,29 @@ class ansiblePlay(object):
             _ansible_hosts_file = kwargs.get('ansible_hosts_file')
         if 'ansible_password' in kwargs:
             _ansible_password = kwargs.get('ansible_passwords')
+        if 'json' in kwargs:
+            _json = kwargs.get('json')
 
         # since API is constructed for CLI it expects certain options to always be set, named tuple 'fakes' the args parsing options object
-        Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
-        options = Options(connection='ssh', module_path=['/to/mymodules'], forks=10, private_key_file=None, become=False, become_method=None, become_user=None, check=False, diff=False)
-        # initialize needed objects
-        loader = DataLoader() # Takes care of finding and reading yaml, json and ini files
-        passwords = dict(vault_pass='secret')
-        results_callback = ResultCallback()
-        inventory = InventoryManager(loader=loader, sources=_ansible_hosts_file)
-        variable_manager = VariableManager(loader=loader, inventory=inventory)
+        #Either use Become method or do not, depending on ansible_password
+        if 'ansible_password' in kwargs:
+            Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
+            options = Options(connection='ssh', module_path=['/to/mymodules'], forks=10, private_key_file=None, become=True, become_method='sudo', become_user='root', check=False, diff=False)
+            loader = DataLoader() # Takes care of finding and reading yaml, json and ini files
+            passwords = dict(vault_pass='secret')
+            results_callback = ResultCallback()
+            inventory = InventoryManager(loader=loader, sources=_ansible_hosts_file)
+            variable_manager = VariableManager(loader=loader, inventory=inventory)
+            variable_manager.extra_vars = {'ansible_become_password' : _ansible_password}
 
+        else:
+            Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
+            options = Options(connection='ssh', module_path=['/to/mymodules'], forks=10, private_key_file=None, become=False, become_method=None, become_user=None, check=False, diff=False)
+            loader = DataLoader() # Takes care of finding and reading yaml, json and ini files
+            passwords = dict(vault_pass='secret')
+            results_callback = ResultCallback()
+            inventory = InventoryManager(loader=loader, sources=_ansible_hosts_file)
+            variable_manager = VariableManager(loader=loader, inventory=inventory)
         
 
         play_source =  dict(
@@ -81,7 +93,8 @@ class ansiblePlay(object):
                 loader=loader,
                 options=options,
                 passwords=passwords,
-                #stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
+                if _json == True
+                    stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
             )
             
             result = tqm.run(play) # most interesting data for a play is actually sent to the callback's methods
@@ -93,97 +106,3 @@ class ansiblePlay(object):
             # Remove ansible tmpdir
             shutil.rmtree(C.DEFAULT_LOCAL_TMP, True)
         return results_callback
-
-    def ansibleRunJson(self, _module, _host, _qm, _args, _ansible_hosts_file):
-
-        # since API is constructed for CLI it expects certain options to always be set, named tuple 'fakes' the args parsing options object
-        Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
-        options = Options(connection='ssh', module_path=['/to/mymodules'], forks=10, private_key_file=None, become=False, become_method=None, become_user=None, check=False, diff=False)
-        # initialize needed objects
-        loader = DataLoader() # Takes care of finding and reading yaml, json and ini files
-        passwords = dict(vault_pass='secret')
-        results_callback = ResultCallback()
-        inventory = InventoryManager(loader=loader, sources=_ansible_hosts_file)
-        variable_manager = VariableManager(loader=loader, inventory=inventory)
-
-        
-
-        play_source =  dict(
-            name = "Ansible Play",
-            hosts = _host,
-            gather_facts = 'no',
-            tasks = [
-                dict(action=dict(module=_module + _qm , args= _args) ),
-                ]
-            )
-
-        play = Play().load(play_source, variable_manager=variable_manager, loader=loader)
-
-
-        tqm = None
-        try:
-            tqm = TaskQueueManager(
-                inventory=inventory,
-                variable_manager=variable_manager,
-                loader=loader,
-                options=options,
-                passwords=passwords,
-                stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
-            )
-            
-            result = tqm.run(play) # most interesting data for a play is actually sent to the callback's methods
-        finally:
-            # we always need to cleanup child procs and the structres we use to communicate with them
-            if tqm is not None:
-                tqm.cleanup()
-
-            # Remove ansible tmpdir
-            shutil.rmtree(C.DEFAULT_LOCAL_TMP, True)
-        return results_callback
-
-
-    def ansibleRunBecome(self, _module, _host, _qm, _args, _ansible_hosts_file, _ansible_password):
-
-        # since API is constructed for CLI it expects certain options to always be set, named tuple 'fakes' the args parsing options object
-        Options = namedtuple('Options', ['connection', 'module_path', 'forks', 'private_key_file', 'become', 'become_method', 'become_user', 'check', 'diff'])
-        options = Options(connection='ssh', module_path=['/to/mymodules'], forks=10, private_key_file=None, become=True, become_method='sudo', become_user='root', check=False, diff=False)
-        # initialize needed objects
-        loader = DataLoader() # Takes care of finding and reading yaml, json and ini files
-        passwords = dict(vault_pass='')
-        results_callback = ResultCallback()
-        inventory = InventoryManager(loader=loader, sources=_ansible_hosts_file)
-        variable_manager = VariableManager(loader=loader, inventory=inventory)
-        variable_manager.extra_vars = {'ansible_become_password' : _ansible_password}
-
-
-        play_source =  dict(
-            name = "Ansible Play",
-            hosts = _host,
-            gather_facts = 'no',
-            tasks = [
-                dict(action=dict(module=_module + _qm , args= _args) ),
-                ]
-            )
-
-        play = Play().load(play_source, variable_manager=variable_manager, loader=loader)
-
-
-        tqm = None
-        try:
-            tqm = TaskQueueManager(
-                inventory=inventory,
-                variable_manager=variable_manager,
-                loader=loader,
-                options=options,
-                passwords=passwords,
-                #stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
-            )
-            result = tqm.run(play) # most interesting data for a play is actually sent to the callback's methods
-            return result    
-        finally:
-            # we always need to cleanup child procs and the structres we use to communicate with them
-            if tqm is not None:
-                tqm.cleanup()
-
-            # Remove ansible tmpdir
-            shutil.rmtree(C.DEFAULT_LOCAL_TMP, True)
