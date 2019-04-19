@@ -9,4 +9,3 @@ For this to work properly, you must disable ssh strict host key checking.
 
 to-do:  
 -convert template format to yaml instead of csv  
--clean up ansibleRun class  
