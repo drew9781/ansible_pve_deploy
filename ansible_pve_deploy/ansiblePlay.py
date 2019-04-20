@@ -55,7 +55,7 @@ class ansiblePlay(object):
         if 'ansible_hosts_file' in kwargs:
             _ansible_hosts_file = kwargs.get('ansible_hosts_file')
         if 'ansible_password' in kwargs:
-            _ansible_password = kwargs.get('ansible_passwords')
+            _ansible_password = kwargs.get('ansible_password')
         if 'json' in kwargs:
             _json = kwargs.get('json')
 
