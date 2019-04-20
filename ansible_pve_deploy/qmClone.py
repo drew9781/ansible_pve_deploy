@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 # This reads user input from the specified config file
 def parse_template(arg1):
     clone = {}
