@@ -28,8 +28,9 @@ def main():
 
     #wait for cloudinit to finish
     done = None
-    time.sleep(180)
     print("Waiting 3 minutes for " + clone_name + " to Boot!")
+    time.sleep(180)
+    
     
     while done != True:
         # play command to check if cloud init finished
