@@ -8,9 +8,9 @@ For this to work properly, you must disable ssh strict host key checking.
 
 ## Install
 
-'''  
+```  
 example  
-'''  
+```  
 
 ## Usage
 
