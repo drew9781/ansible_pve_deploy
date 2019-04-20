@@ -43,11 +43,11 @@ class ansiblePlay(object):
         if 'qm' in kwargs:
             _qm = kwargs.get('qm')
         else:
-            _qm = None
+            _qm = ''
         if 'args' in kwargs:
             _args = kwargs.get('args')
         else:
-            _args = None
+            _args = ''
         if 'ansible_hosts_file' in kwargs:
             _ansible_hosts_file = kwargs.get('ansible_hosts_file')
             print(_ansible_hosts_file)
