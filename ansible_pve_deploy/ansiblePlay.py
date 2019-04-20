@@ -36,18 +36,22 @@ class ansiblePlay(object):
     #def ansibleRunJson(self, _module, _host, _qm, _args, _ansible_hosts_file):
     #def ansibleRunBecome(self, _module, _host, _qm, _args, _ansible_hosts_file, _ansible_password):
     def ansibleRun(self, **kwargs ):
+        _module = ''
+        _host   = ''
+        _qm     = ''
+        _args   = ''
+        _ansible_hosts_file = ''
+        _ansible_password   = ''
+        _json   = ''
+        
         if 'module' in kwargs:
             _module = kwargs.get('module')
         if 'host' in kwargs:
             _host = kwargs.get('host')
         if 'qm' in kwargs:
             _qm = kwargs.get('qm')
-        else:
-            _qm = ''
         if 'args' in kwargs:
             _args = kwargs.get('args')
-        else:
-            _args = ''
         if 'ansible_hosts_file' in kwargs:
             _ansible_hosts_file = kwargs.get('ansible_hosts_file')
             print(_ansible_hosts_file)
