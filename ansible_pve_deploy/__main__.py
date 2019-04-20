@@ -34,7 +34,7 @@ def main():
     
     while done != True:
         # play command to check if cloud init finished
-        stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_hosts_file = ansible_hosts_file)
+        stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_hosts_file = ansible_hosts_file, json = True)
 
         try:
             # run play command and extract json
