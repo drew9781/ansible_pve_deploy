@@ -46,7 +46,7 @@ def main():
         except AttributeError:
             print('failed this time ' + clone_name)
         
-        time.sleep(5)
+        time.sleep(10)
     #reboot server
     play.ansibleRun(module = 'reboot ', host = clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
