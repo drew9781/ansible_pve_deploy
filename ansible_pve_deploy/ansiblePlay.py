@@ -87,15 +87,24 @@ class ansiblePlay(object):
 
         tqm = None
         try:
-            tqm = TaskQueueManager(
-                inventory=inventory,
-                variable_manager=variable_manager,
-                loader=loader,
-                options=options,
-                passwords=passwords,
-                if _json == True:
+            if _json == True:
+                tqm = TaskQueueManager(
+                    inventory=inventory,
+                    variable_manager=variable_manager,
+                    loader=loader,
+                    options=options,
+                    passwords=passwords,
                     stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
-            )
+                )
+            else: 
+                tqm = TaskQueueManager(
+                    inventory=inventory,
+                    variable_manager=variable_manager,
+                    loader=loader,
+                    options=options,
+                    passwords=passwords,
+                    #stdout_callback=results_callback,  # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
+                )
             
             result = tqm.run(play) # most interesting data for a play is actually sent to the callback's methods
         finally:
