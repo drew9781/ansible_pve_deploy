@@ -16,4 +16,5 @@ example
 
 
 to-do:  
--convert template format to yaml instead of csv  
+- convert template format to yaml instead of csv  
+- add other cloud-init config parameters to script (sshkey, hostname, etc)
