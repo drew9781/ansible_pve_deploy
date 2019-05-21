@@ -40,11 +40,9 @@ def main():
                 time.sleep(5)
         print(clone_name + " is pinging!")            
 
-## install python2
- tasks:
-  - name: install python 2
-    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-    
+        play.ansibleRun(module = 'raw ', host =  clone_name, args = dict("test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)" ), ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
+
+
     else:
         
         #wait for cloudinit to finish
