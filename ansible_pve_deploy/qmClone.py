@@ -26,7 +26,6 @@ def parse_template(arg1):
                 clone[j-2]= line.split(',')[2]
                 clone[j-1]= line.split(',')[3]
                 clone[j  ]= (line.split(',')[4]).rstrip()
-    print( clone, pve, templateID, vmUser, vmPass, vmSSH)        
     return clone, pve, templateID, vmUser, vmPass, vmSSH
 
 # Format the QM commands from parse vars on template
@@ -41,6 +40,6 @@ def qm_format(arg1, clone, templateID, vmUser, vmSSH):
     qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
     
     # qm set    --sshkey key --ciuser name
-    qmUser = "qm set " + clone_id + " --sshkey " + vmSSH + ' --ciuser ' + vmUser
+    qmUser = "qm set " + clone_id + ' --sshkey "' + vmSSH + '" --ciuser ' + vmUser
 
     return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser
