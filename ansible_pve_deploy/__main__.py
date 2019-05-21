@@ -32,7 +32,7 @@ def main():
     #wait for cloudinit to finish
     done = None
     print("Waiting 3 minutes for " + clone_name + " to Boot!")
-    time.sleep(180)
+    time.sleep(15)
     play.ansibleRun(module = 'ping ', host =  clone_ip, ansible_hosts_file = ansible_hosts_file)
     if vmImage == "False":
         while done != True:
