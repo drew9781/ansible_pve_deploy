@@ -15,11 +15,13 @@ ansible_hosts_file = '/etc/ansible/hosts'
 ansible_password = getpass(prompt='Ansible sudo password:')
 
 def main():
-    qm_clone, qm_ip, clone_name, clone_ip, clone_id = qm_format(i, clones, templateID)
+    qm_clone, qm_ip, clone_name, clone_ip, clone_id, qmUser = qm_format(i, clones, templateID, vmUser, vmSSH)
     play = ansiblePlay()
     # Clone and configure ip for new VMS on pve host
     play.ansibleRun(module = 'shell ', host =  pve, qm = qm_clone, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     play.ansibleRun(module = 'shell ', host =  pve, qm = qm_ip, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
+    if vmUser != 'Username':
+        play.ansibleRun(module = 'shell ', host =  pve, qm = qmUser, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     play.ansibleRun(module = 'shell ', host =  pve, qm = 'qm start '+ clone_id, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
     # add clones to ansible hosts file
@@ -51,7 +53,7 @@ def main():
     play.ansibleRun(module = 'reboot ', host = clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
 # parse template for vars
-clones, pve, templateID = parse_template(file)
+clones, pve, templateID, vmUser, vmPass, vmSSH = parse_template(file)
 
 # for every clone run the qm command
 for i in range(1, (len(clones) +1), cloneVarLength):
