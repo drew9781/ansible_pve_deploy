@@ -35,7 +35,7 @@ def main():
         while done != True:
             response = os.system("ping -c 1 " + clone_ip)
             if response == 0:
-                done = True:
+                done = True
             else:
                 time.sleep(5)
         print(clone_name + " is pinging!")            
