@@ -40,6 +40,6 @@ def qm_format(arg1, clone, templateID, vmUser, vmSSH):
     qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
     
     # qm set    --sshkey key --ciuser name
-    qmUser = "qm set " + clone_id + ' --sshkey "' + vmSSH + '" --ciuser ' + vmUser
+    qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/authorized_keys --ciuser ' + vmUser
 
     return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser
