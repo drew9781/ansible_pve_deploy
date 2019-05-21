@@ -19,7 +19,7 @@ def parse_template(arg1):
                 vmSSH= line.split(',')[1]
             elif i >= 7: ## get cloneVM info
                 # orders the clone's info in a dict, in 5 unit increments
-                j = (i-3) *5
+                j = (i-6) *5
                 clone[j-4]= line.split(',')[0]
                 clone[j-3]= line.split(',')[1]
                 clone[j-2]= line.split(',')[2]
@@ -41,5 +41,5 @@ def qm_format(arg1, clone, templateID, vmUser, vmSSH):
     
     # qm set    --sshkey key --ciuser name
     qmUser = "qm set " + clone_id + " --sshkey " + vmSSH + ' --ciuser ' + vmUser
-    
+
     return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser
