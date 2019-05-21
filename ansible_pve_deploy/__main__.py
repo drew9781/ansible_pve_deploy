@@ -5,6 +5,7 @@ from getpass import getpass
 import json
 import time
 import sys
+import os
 
 from multiprocessing import Process
 
@@ -29,9 +30,18 @@ def main():
     play.ansibleRun(module = 'lineinfile ', host =  'localhost', args = dict(path=ansible_hosts_file, line=clone_name + ' ansible_host=' + clone_ip, create='yes' ), ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     #play.ansibleRun(module = 'shell ', host =  'localhost', args = 'ssh-keygen -f "~/.ssh/known_hosts" -R ' + clone_ip, ansible_hosts_file = ansible_hosts_file)
 
+    if vmImage == "True":
+        done = False
+        while done != True:
+            response = os.system("ping -c 1 " + clone_ip)
+            if response == 0:
+                done = True:
+            else:
+                time.sleep(5)
+        print(clone_name + " is pinging!")            
 
 
-    if vmImage == "False":
+    else:
         
         #wait for cloudinit to finish
         done = None
