@@ -33,9 +33,9 @@ def main():
     done = None
     print("Waiting 3 minutes for " + clone_name + " to Boot!")
     time.sleep(15)
-    pingTest = play.ansibleRun(module = 'ping ', host =  clone_name, ansible_hosts_file = ansible_hosts_file, json=True)
-    play.json = json.loads(pingTest.json)
-    print(play.json)
+    print(play.ansibleRun(module = 'ping ', host =  clone_name, ansible_hosts_file = ansible_hosts_file, json=True))
+    #play.json = json.loads(pingTest.json)
+    #print(play.json)
 
     if vmImage == "False":
         while done != True:
