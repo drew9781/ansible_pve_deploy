@@ -33,7 +33,7 @@ def main():
     done = None
     print("Waiting 3 minutes for " + clone_name + " to Boot!")
     time.sleep(15)
-    print(play.ansibleRun(module = 'ping ', host =  clone_name, ansible_hosts_file = ansible_hosts_file, json=True))
+    print((play.ansibleRun(module = 'ping ', host =  clone_name, ansible_hosts_file = ansible_hosts_file, json=True)).json)
     #play.json = json.loads(pingTest.json)
     #print(play.json)
 
