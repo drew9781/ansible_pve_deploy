@@ -29,15 +29,15 @@ def main():
     play.ansibleRun(module = 'lineinfile ', host =  'localhost', args = dict(path=ansible_hosts_file, line=clone_name + ' ansible_host=' + clone_ip, create='yes' ), ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     #play.ansibleRun(module = 'shell ', host =  'localhost', args = 'ssh-keygen -f "~/.ssh/known_hosts" -R ' + clone_ip, ansible_hosts_file = ansible_hosts_file)
 
-    #wait for cloudinit to finish
-    done = None
-    print("Waiting 3 minutes for " + clone_name + " to Boot!")
-    time.sleep(15)
-    print((play.ansibleRun(module = 'ping ', host =  clone_name, ansible_hosts_file = ansible_hosts_file, json=True)).json)
-    #play.json = json.loads(pingTest.json)
-    #print(play.json)
+
 
     if vmImage == "False":
+        
+        #wait for cloudinit to finish
+        done = None
+        print("Waiting 3 minutes for " + clone_name + " to Boot!")
+        time.sleep(180)
+
         while done != True:
             # play command to check if cloud init finished
             stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_hosts_file = ansible_hosts_file, json = True)
