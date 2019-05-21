@@ -29,7 +29,7 @@ def parse_template(arg1):
     return clone, pve, templateID, vmUser, vmPass, vmSSH
 
 # Format the QM commands from parse vars on template
-def qm_format(arg1, clone, templateID, vmUser, vmSSH):
+def qm_format(arg1, clone, templateID, vmUser, vmPass, vmSSH):
     # qm clone FIRSTVMID cloneID --name name
     clone_id =  clone[arg1 +1]
     clone_name = clone[arg1]
@@ -40,7 +40,7 @@ def qm_format(arg1, clone, templateID, vmUser, vmSSH):
     qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
     
     # qm set    --sshkey key --ciuser name
-    qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/id_rsa.pub --ciuser ' + vmUser
+    qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/id_rsa.pub --ciuser ' + vmUser + ' --cipassword ' + vmPass
 
     # qm resize    scsi0 +10G
     qmResize= "qm resize " + clone_id + " scsi0 +10G"
