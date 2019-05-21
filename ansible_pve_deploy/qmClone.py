@@ -9,21 +9,27 @@ def parse_template(arg1):
                 1 == 1
             elif i == 1: ## get ansible pve hostname
                 pve= line.split(",")[1]
+                print(pve)
             elif i == 2: ## get templateVM id
                 templateID= line.split(',')[1]
-            elif i >= 4: ## get cloneVM info
+            elif i == 3: ## get username for vm
+                vmUser= line.split(',')[1]
+            elif i == 4: ## get pass for username
+                vmPass= line.split(',')[1]
+            elif i == 5: ## use custom image or no?
+                vmImage= line.split(',')[1]
+            elif i >= 7: ## get cloneVM info
                 # orders the clone's info in a dict, in 5 unit increments
-                j = (i-3) *5
+                j = (i-6) *5
                 clone[j-4]= line.split(',')[0]
                 clone[j-3]= line.split(',')[1]
                 clone[j-2]= line.split(',')[2]
                 clone[j-1]= line.split(',')[3]
                 clone[j  ]= (line.split(',')[4]).rstrip()
-            
-    return clone, pve, templateID
+    return clone, pve, templateID, vmUser, vmPass, vmImage
 
 # Format the QM commands from parse vars on template
-def qm_format(arg1, clone, templateID):
+def qm_format(arg1, clone, templateID, vmUser, vmPass):
     # qm clone FIRSTVMID cloneID --name name
     clone_id =  clone[arg1 +1]
     clone_name = clone[arg1]
@@ -32,5 +38,10 @@ def qm_format(arg1, clone, templateID):
     
     # qm set  --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
     qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
+    
+    # qm set    --sshkey key --ciuser name
+    qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/id_rsa.pub --ciuser ' + vmUser + ' --cipassword ' + vmPass
 
-    return qmClone, qmIP, clone_name, clone_ip, clone_id
+    # qm resize    scsi0 +10G
+    qmResize= "qm resize " + clone_id + " scsi0 +10G"
+    return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser, qmResize

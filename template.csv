@@ -1,6 +1,9 @@
 "Ansible host file:",/etc/ansible/hosts,,,
 "ansible Host to install on:",pve,,,
-"Template ID",301,,,
+"Template ID",9000,,,
+"VM Username", Username,,,
+"VM Password", Password,,,
+"Use Ubuntu cloud image?",True,,,
 "clone name",id,ip,mask,gw
 clone1,501,192.168.1.241,24,192.168.1.1
 clone2,502,192.168.1.242,24,192.168.1.1
