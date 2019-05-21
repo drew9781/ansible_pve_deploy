@@ -9,6 +9,7 @@ def parse_template(arg1):
                 1 == 1
             elif i == 1: ## get ansible pve hostname
                 pve= line.split(",")[1]
+                print(pve)
             elif i == 2: ## get templateVM id
                 templateID= line.split(',')[1]
             elif i == 3: ## get username for vm
