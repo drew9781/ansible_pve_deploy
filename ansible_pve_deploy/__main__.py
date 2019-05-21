@@ -40,7 +40,11 @@ def main():
                 time.sleep(5)
         print(clone_name + " is pinging!")            
 
-
+## install python2
+ tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    
     else:
         
         #wait for cloudinit to finish
