@@ -42,4 +42,6 @@ def qm_format(arg1, clone, templateID, vmUser, vmSSH):
     # qm set    --sshkey key --ciuser name
     qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/id_rsa.pub --ciuser ' + vmUser
 
-    return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser
+    # qm resize    scsi0 +10G
+    qmResize= "qm resize " + clone_id + " +10G"
+    return qmClone, qmIP, clone_name, clone_ip, clone_id, qmUser, qmResize

@@ -15,13 +15,14 @@ ansible_hosts_file = '/etc/ansible/hosts'
 ansible_password = getpass(prompt='Ansible sudo password:')
 
 def main():
-    qm_clone, qm_ip, clone_name, clone_ip, clone_id, qmUser = qm_format(i, clones, templateID, vmUser, vmSSH)
+    qm_clone, qm_ip, clone_name, clone_ip, clone_id, qmUser, qmResize = qm_format(i, clones, templateID, vmUser, vmSSH)
     play = ansiblePlay()
     # Clone and configure ip for new VMS on pve host
     play.ansibleRun(module = 'shell ', host =  pve, qm = qm_clone, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     play.ansibleRun(module = 'shell ', host =  pve, qm = qm_ip, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     if vmUser != 'Username':
         play.ansibleRun(module = 'shell ', host =  pve, qm = qmUser, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
+        play.ansibleRun(module = 'shell ', host =  pve, qm = qmResize, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
     play.ansibleRun(module = 'shell ', host =  pve, qm = 'qm start '+ clone_id, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
     # add clones to ansible hosts file
