@@ -15,7 +15,7 @@ ansible_hosts_file = '/etc/ansible/hosts'
 ansible_password = getpass(prompt='Ansible sudo password:')
 
 def main():
-    qm_clone, qm_ip, clone_name, clone_ip, clone_id, qmUser, qmResize = qm_format(i, clones, templateID, vmUser, vmPass, vmSSH)
+    qm_clone, qm_ip, clone_name, clone_ip, clone_id, qmUser, qmResize = qm_format(i, clones, templateID, vmUser, vmPass)
     play = ansiblePlay()
     # Clone and configure ip for new VMS on pve host
     play.ansibleRun(module = 'shell ', host =  pve, qm = qm_clone, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
@@ -34,27 +34,27 @@ def main():
     print("Waiting 3 minutes for " + clone_name + " to Boot!")
     time.sleep(180)
     
-    
-    while done != True:
-        # play command to check if cloud init finished
-        stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_hosts_file = ansible_hosts_file, json = True)
+    if vmImage == "False":
+        while done != True:
+            # play command to check if cloud init finished
+            stat = play.ansibleRun(module = 'stat ', host =  clone_name, args = dict(path='/var/lib/cloud/instance/boot-finished'), ansible_hosts_file = ansible_hosts_file, json = True)
 
-        try:
-            # run play command and extract json
-            play.json = json.loads(stat.json)
-            if play.json[clone_name]['stat']['exists'] == False:
-                print(clone_name + ' is not finished!')
-            #print(play.json[clone_name]['stat']['exists'], ' ' + clone_name)
-            done = play.json[clone_name]['stat']['exists']
-        except AttributeError:
-            print('failed this time ' + clone_name)
-        
-        time.sleep(10)
-    #reboot server
-    play.ansibleRun(module = 'reboot ', host = clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
+            try:
+                # run play command and extract json
+                play.json = json.loads(stat.json)
+                if play.json[clone_name]['stat']['exists'] == False:
+                    print(clone_name + ' is not finished!')
+                #print(play.json[clone_name]['stat']['exists'], ' ' + clone_name)
+                done = play.json[clone_name]['stat']['exists']
+            except AttributeError:
+                print('failed this time ' + clone_name)
+            
+            time.sleep(10)
+        #reboot server
+        play.ansibleRun(module = 'reboot ', host = clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
 # parse template for vars
-clones, pve, templateID, vmUser, vmPass, vmSSH = parse_template(file)
+clones, pve, templateID, vmUser, vmPass, vmImage = parse_template(file)
 
 # for every clone run the qm command
 for i in range(1, (len(clones) +1), cloneVarLength):

@@ -16,8 +16,8 @@ def parse_template(arg1):
                 vmUser= line.split(',')[1]
             elif i == 4: ## get pass for username
                 vmPass= line.split(',')[1]
-            elif i == 5: ## get ssh key
-                vmSSH= line.split(',')[1]
+            elif i == 5: ## use custom image or no?
+                vmImage= line.split(',')[1]
             elif i >= 7: ## get cloneVM info
                 # orders the clone's info in a dict, in 5 unit increments
                 j = (i-6) *5
@@ -26,10 +26,10 @@ def parse_template(arg1):
                 clone[j-2]= line.split(',')[2]
                 clone[j-1]= line.split(',')[3]
                 clone[j  ]= (line.split(',')[4]).rstrip()
-    return clone, pve, templateID, vmUser, vmPass, vmSSH
+    return clone, pve, templateID, vmUser, vmPass, vmImage
 
 # Format the QM commands from parse vars on template
-def qm_format(arg1, clone, templateID, vmUser, vmPass, vmSSH):
+def qm_format(arg1, clone, templateID, vmUser, vmPass):
     # qm clone FIRSTVMID cloneID --name name
     clone_id =  clone[arg1 +1]
     clone_name = clone[arg1]
