@@ -25,7 +25,7 @@ def parse_template(arg1):
                 clone[j-2]= line.split(',')[2]
                 clone[j-1]= line.split(',')[3]
                 clone[j  ]= (line.split(',')[4]).rstrip()
-            
+    print( clone, pve, templateID, vmUser, vmPass, vmSSH)        
     return clone, pve, templateID, vmUser, vmPass, vmSSH
 
 # Format the QM commands from parse vars on template
