@@ -41,10 +41,10 @@ def parse_template_yml(arg1):
 
 # Format the QM commands from parse vars on template
 def qm_format(arg1, clones, templateID, vmUser, vmPass):
-    clone_id =  clones[i]['id']
-    clone_name = clones[i]['clone']
-    clone_ip = clones[i]['ip']
-    clone_gw = clones[i]['gw']
+    clone_id =   clones[arg1]['id']
+    clone_name = clones[arg1]['clone']
+    clone_ip =   clones[arg1]['ip']
+    clone_gw =   clones[arg1]['gw']
     
     # qm clone FIRSTVMID cloneID --name name
     qmClone = "qm clone " + templateID + " " + clone_id + " --name " + clone_name
