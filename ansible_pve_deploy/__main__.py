@@ -33,7 +33,7 @@ def main():
     if vmImage == True:
         done = False
         while done != True:
-            response = os.system("ping -c 1 " + clone_ip)
+            response = os.system("ping -c 1 " + clone_ip.split('/')[0])
             if response == 0:
                 done = True
             else:
