@@ -32,7 +32,7 @@ def parse_template_yml(arg1):
 
     clones = yml['clones']
 
-    if _cloud_image = False:    
+    if _cloud_image == False:    
         return clones, _ansible_host_address, _template_id
     else:
         return clones, _ansible_host_address, _template_id, _vm_username, _vm_password, _cloud_image
