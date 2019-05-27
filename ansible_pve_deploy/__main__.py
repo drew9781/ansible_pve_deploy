@@ -38,7 +38,8 @@ def main():
                 done = True
             else:
                 time.sleep(5)
-        print(clone_name + " is pinging!")            
+        print(clone_name + " is pinging!") 
+        time.sleep(20)          
 
         play.ansibleRun(module = 'raw test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)', host =  clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
