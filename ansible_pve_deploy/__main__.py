@@ -70,10 +70,10 @@ def main():
         play.ansibleRun(module = 'reboot ', host = clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
 # parse template for vars
-clones, pve, templateID, vmUser, vmPass, vmImage = parse_template(file)
+clones, pve, templateID, vmUser, vmPass, vmImage = parse_template_yml(file)
 
 # for every clone run the qm command
-for i in range(1, (len(clones) +1), cloneVarLength):
+for i in range(len(clones)):
    
    Process(target = main).start()
    time.sleep(5)

@@ -1,43 +1,56 @@
 #! /usr/bin/python3
-# This reads user input from the specified config file
-def parse_template(arg1):
-    clone = {}
-    with open(arg1) as F:
-        for i, line in enumerate(F):
-            if i == 0:
-                #ansible hostname file config
-                1 == 1
-            elif i == 1: ## get ansible pve hostname
-                pve= line.split(",")[1]
-                print(pve)
-            elif i == 2: ## get templateVM id
-                templateID= line.split(',')[1]
-            elif i == 3: ## get username for vm
-                vmUser= line.split(',')[1]
-            elif i == 4: ## get pass for username
-                vmPass= line.split(',')[1]
-            elif i == 5: ## use custom image or no?
-                vmImage= line.split(',')[1]
-            elif i >= 7: ## get cloneVM info
-                # orders the clone's info in a dict, in 5 unit increments
-                j = (i-6) *5
-                clone[j-4]= line.split(',')[0]
-                clone[j-3]= line.split(',')[1]
-                clone[j-2]= line.split(',')[2]
-                clone[j-1]= line.split(',')[3]
-                clone[j  ]= (line.split(',')[4]).rstrip()
-    return clone, pve, templateID, vmUser, vmPass, vmImage
+# This reads user input from the specified csv file
+import yaml
+
+def parse_template_yml(arg1):
+    with open("template.yml", 'r') as F:
+        yml = yaml.safe_load(F)
+
+    ## parse required info
+    if 'ansible_host_file' in yml:
+        _ansible_host_file = yml.get('ansible_host_file')
+    else:
+        raise Exception('yml config should include ansible_host_file variable, which specifies the ansible inventory file on client.')
+    if 'ansible_host_address' in yml:
+        _ansible_host_address = yml.get('ansible_host_address')
+    else:
+        raise Exception('yml config should include ansible_host_address variable, which specifies the proxmox IP/DNS address. ')
+    if 'template_id' in yml:
+        _template_id = yml.get('template_id')
+    else:
+        raise Exception('yml config should include template_id variable, which specifies the VM ID on the proxmox host to be used as a template for clones.')
+
+    ## parse optional info
+    if 'vm_username' in yml:
+        _vm_username = yml.get('vm_username')
+    if 'vm_password' in yml:
+        _vm_password = yml.get('vm_password')
+    if 'cloud_image' in yml:
+        _cloud_image = yml.get('cloud_image')
+    else:
+        _cloud_image = False
+
+    clones = yml['clones']
+
+    if _cloud_image = False:    
+        return clones, _ansible_host_address, _template_id
+    else:
+        return clones, _ansible_host_address, _template_id, _vm_username, _vm_password, _cloud_image
+
+
 
 # Format the QM commands from parse vars on template
-def qm_format(arg1, clone, templateID, vmUser, vmPass):
+def qm_format(arg1, clones, templateID, vmUser, vmPass):
+    clone_id =  clones[i]['id']
+    clone_name = clones[i]['clone']
+    clone_ip = clones[i]['ip']
+    clone_gw = clones[i]['gw']
+    
     # qm clone FIRSTVMID cloneID --name name
-    clone_id =  clone[arg1 +1]
-    clone_name = clone[arg1]
-    clone_ip = clone[arg1+2]
     qmClone = "qm clone " + templateID + " " + clone_id + " --name " + clone_name
     
     # qm set  --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
-    qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip + "/" + clone[arg1+3] + ",gw=" + clone[arg1+4] + "'"
+    qmIP = "qm set " + clone_id + " --ipconfig0 'ip="+ clone_ip +",gw=" + clone_gw + "'"
     
     # qm set    --sshkey key --ciuser name
     qmUser = "qm set " + clone_id + ' --sshkey ~/.ssh/id_rsa.pub --ciuser ' + vmUser + ' --cipassword ' + vmPass

@@ -1,0 +1,19 @@
+---
+ansible_host_file: /etc/ansible/hosts ##(ansible inventory file)
+ansible_host_address: pve ##(dns address)
+template_id: 9000 ##*(clone template on pve)
+
+## If using Ubuntu cloud image, uncomment these lines to configure a default user and password.
+# vm_username: 
+# vm_password: 
+# cloud_image: True 
+
+clones:
+- clone: clone1
+  id: 501
+  ip: 192.168.1.241/24
+  gw: 192.168.1.1
+- clone: clone2
+  id: 502
+  ip: 192.168.1.242/24
+  gw: 192.168.1.1
