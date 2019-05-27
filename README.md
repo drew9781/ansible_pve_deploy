@@ -16,9 +16,9 @@ pip3 install .
 
 ## Usage
 ```
-python3 ansible_pve_deploy/__main__.py template.csv
+python3 ansible_pve_deploy/__main__.py template.yml
 ```
-The script takes the csv file as a configuration file for the clones. Edit the file to specify clone information.
+The script takes the yml file as a configuration file for the clones. Edit the file to specify clone information.
 
 ## Prepare template on proxmox
 ```
@@ -32,5 +32,5 @@ qm template 9000
 ```
 
 ### to-do:  
-- convert template format to yaml instead of csv  
+- ~~convert template format to yaml instead of csv~~  
 
