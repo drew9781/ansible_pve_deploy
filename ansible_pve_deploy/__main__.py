@@ -33,14 +33,14 @@ def main():
     if vmImage == True:
         done = False
         while done != True:
-            response = os.system("ping -c 1 " + clone_ip.split('/')[0])
+            response = os.system("ping -c 1 " + clone_ip)
             if response == 0:
                 done = True
             else:
                 time.sleep(5)
         print(clone_name + " is pinging!") 
         time.sleep(20)          
-
+        while
         play.ansibleRun(module = 'raw test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)', host =  clone_name, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
 
 
