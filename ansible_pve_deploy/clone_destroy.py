@@ -7,8 +7,8 @@ def clone_destroy(i, ansible_password, ansible_hosts_file, clones, pve, template
     qmStop, qmDestroy, clone_name, clone_ip = qm_format_destroy(i, clones)
     play = ansiblePlay()
     
-    play.ansibleRun(module = 'shell ', host =  pve, qm = qmStop, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
-    play.ansibleRun(module = 'shell ', host =  pve, qm = qmDestroy, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
+    play.ansibleRun(module = 'shell ', host =  pve, qm = qmStop, ansible_hosts_file = ansible_hosts_file)
+    play.ansibleRun(module = 'shell ', host =  pve, qm = qmDestroy, ansible_hosts_file = ansible_hosts_file)
 
 
     # remove clones from ansible hosts file
