@@ -28,7 +28,7 @@ def qm_format_destroy(arg1, clones):
     clone_name = str(clones[arg1]['clone'])
     clone_ip =   str(clones[arg1]['ip'])
 
-    qmStop= "qm stop" + clone_id
+    qmStop= "qm stop " + clone_id
     qmDestroy= "qm destroy " + clone_id
 
     return qmStop, qmDestroy, clone_name, clone_ip.split('/')[0]
