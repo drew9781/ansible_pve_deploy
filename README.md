@@ -1,6 +1,6 @@
 # ansible_pve_deploy
 
-This module uses a csv (yml in future) template to create VM clones on proxmox using ansible and qm command.
+This module uses a yml template to create VM clones on proxmox using ansible and qm command.
 
 edit template.csv to include the clones and information. You must have an existing template. Your proxmox host must also be in you ansible hosts file; the default is pve.
 
@@ -18,7 +18,12 @@ pip3 install .
 ```
 python3 ansible_pve_deploy/__main__.py template.yml
 ```
-The script takes the yml file as a configuration file for the clones. Edit the file to specify clone information.
+The script takes the yml file as a configuration file for the clones. Edit the file to specify clone information.  
+  
+To destroy VMs, you can use the same yml file.
+```
+python3 ansible_pve_deploy template.yml destroy
+```
 
 ## Prepare template on proxmox
 ```
@@ -33,4 +38,4 @@ qm template 9000
 
 ### to-do:  
 - ~~convert template format to yaml instead of csv~~  
-
+- ~~Add VM destroyer function~~
