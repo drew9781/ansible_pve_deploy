@@ -35,6 +35,7 @@ qm set 9000 --ide2 FreenasImages:cloudinit
 qm set 9000  --boot c --bootdisk scsi0
 qm template 9000
 ```
+The vm also needs to have a serial terminal, and the display using that terminal.
 
 ### to-do:  
 - ~~convert template format to yaml instead of csv~~  
