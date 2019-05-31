@@ -4,7 +4,7 @@ from qm_format import qm_format_destroy
 
 
 def clone_destroy(i, ansible_password, ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage):
-    qmStop, qmDestroy = qm_format_destroy(i, clones)
+    qmStop, qmDestroy, clone_name, clone_ip = qm_format_destroy(i, clones)
     play = ansiblePlay()
     
     play.ansibleRun(module = 'shell ', host =  pve, qm = qmStop, ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
