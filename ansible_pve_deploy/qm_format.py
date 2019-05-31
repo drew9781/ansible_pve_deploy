@@ -22,3 +22,14 @@ def qm_format(arg1, clones, templateID, vmUser, vmPass):
     # qm resize    scsi0 +10G
     qmResize= "qm resize " + clone_id + " scsi0 +10G"
     return qmClone, qmIP, clone_name, clone_ip.split('/')[0], clone_id, qmUser, qmResize
+
+def qm_format_destroy(arg1, clones):
+    clone_id =   str(clones[arg1]['id'])
+    clone_name = str(clones[arg1]['clone'])
+    clone_ip =   str(clones[arg1]['ip'])
+
+    qmStop= "qm stop" + clone_id
+    qmDestroy= "qm destroy " + clone_id
+
+    return qmStop, qmDestroy, clone_name, clone_ip.split('/')[0]
+    

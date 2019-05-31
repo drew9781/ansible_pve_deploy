@@ -1,13 +1,17 @@
 #! /usr/bin/python3
 from config_parse import parse_template_yml
 from clone_create import clone_create
+from clone_destroy import clone_destroy
 from getpass import getpass
 import time
 import sys
 from multiprocessing import Process
 
 def main():
-    clone_create(i,ansible_password , ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage)
+    if sys.argv[2] == "destroy":
+        clone_destroy(i,ansible_password , ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage)
+    else:
+        clone_create(i,ansible_password , ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage)
 
 
 # Take config file from Arg, and prompt for the Ansible password.
