@@ -16,13 +16,13 @@ pip3 install .
 
 ## Usage
 ```
-python3 ansible_pve_deploy/__main__.py template.yml
+sudo python3 ansible_pve_deploy template.yml
 ```
 The script takes the yml file as a configuration file for the clones. Edit the file to specify clone information.  
   
 To destroy VMs, you can use the same yml file.
 ```
-python3 ansible_pve_deploy template.yml destroy
+sudo python3 ansible_pve_deploy template.yml destroy
 ```
 
 ## Prepare template on proxmox
