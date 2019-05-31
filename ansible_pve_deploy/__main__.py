@@ -8,7 +8,7 @@ import sys
 from multiprocessing import Process
 
 def main():
-    if sys.argv[2] == "destroy":
+    if destroy:
         clone_destroy(i,ansible_password , ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage)
     else:
         clone_create(i,ansible_password , ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage)
@@ -17,6 +17,11 @@ def main():
 # Take config file from Arg, and prompt for the Ansible password.
 file = sys.argv[1]
 ansible_password = getpass(prompt='Ansible sudo password:')
+try:
+    if sys.argv[2] == "destroy":
+        destroy = True
+except:
+    destroy = False
 
 # parse template for vars
 ansible_hosts_file, clones, pve, templateID, vmUser, vmPass, vmImage = parse_template_yml(file)
