@@ -18,7 +18,7 @@ def clone_create(i, ansible_password, ansible_hosts_file, clones, pve, templateI
 
     # add clones to ansible hosts file
     play.ansibleRun(module = 'lineinfile ', host =  'localhost', args = dict(path=ansible_hosts_file, line=clone_name + ' ansible_host=' + clone_ip, create='yes' ), ansible_hosts_file = ansible_hosts_file, ansible_password = ansible_password)
-    #play.ansibleRun(module = 'shell ', host =  'localhost', args = 'ssh-keygen -f "~/.ssh/known_hosts" -R ' + clone_ip, ansible_hosts_file = ansible_hosts_file)
+    play.ansibleRun(module = 'shell ', host =  'localhost', args = 'ssh-keygen -f "~/.ssh/known_hosts" -R ' + clone_ip, ansible_hosts_file = ansible_hosts_file)
 
     if vmImage == True:
         done = False
